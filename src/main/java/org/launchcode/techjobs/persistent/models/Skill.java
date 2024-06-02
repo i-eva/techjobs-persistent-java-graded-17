@@ -1,6 +1,6 @@
 package org.launchcode.techjobs.persistent.models;
 
-import jakarta.persistence.*;git s
+import jakarta.persistence.*;
 
 @Entity
 public class Skill extends AbstractEntity {
@@ -23,9 +23,9 @@ public class Skill extends AbstractEntity {
         return competency;
     }
 
-//    public void setCompetency(String competency) {
-//        this.competency = competency;
-//    }
+    public void setCompetency(String competency) {
+        this.competency = competency;
+    }
 
     public String getDescription() {
         return description;

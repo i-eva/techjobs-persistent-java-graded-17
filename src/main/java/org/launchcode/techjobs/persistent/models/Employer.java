@@ -29,9 +29,9 @@ public class Employer extends AbstractEntity {
         return org;
     }
 
-//    public void setOrg(String org) {
-//        this.org = org;
-//    }
+    public void setOrg(String org) {
+        this.org = org;
+    }
 
     public String getLocation() {
         return location;
