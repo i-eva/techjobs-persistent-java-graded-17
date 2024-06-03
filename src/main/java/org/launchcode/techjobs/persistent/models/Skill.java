@@ -7,7 +7,7 @@ public class Skill extends AbstractEntity {
 
 private String description;
 
-    public Skill(String competency, String description) {
+    public Skill(String description) {
         this(); // must be added for no-arg constructor to work, see below
         this.description = description;
     }
