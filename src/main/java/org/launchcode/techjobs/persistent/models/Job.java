@@ -8,11 +8,7 @@ import jakarta.persistence.Id;
 import java.util.List;
 
 @Entity
-public class Job {
-
-    @Id
-    @GeneratedValue
-    private int id;
+public class Job extends AbstractEntity {
 
     private String name;
     private String employer;
