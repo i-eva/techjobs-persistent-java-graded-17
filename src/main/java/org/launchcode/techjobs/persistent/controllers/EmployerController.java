@@ -19,8 +19,8 @@ public class EmployerController {
     private EmployerRepository employerRepository;
 
     // create an index method that will use findAll
-    @GetMapping
-    public String displayAllEmployers(Model model) {
+    @GetMapping("")
+    public String index(Model model) {
         model.addAttribute("employers", employerRepository.findAll());
         return "employers/index";
     }

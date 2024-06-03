@@ -9,15 +9,15 @@ public class Employer extends AbstractEntity {
 
     @NotBlank(message = "Employer is required")
     @Size(min = 3, max = 255, message = "Employer must be between 3 and 255 characters")
-    private String org;
+    private String name;
 
     @NotBlank(message = "Location is required")
     @Size(min = 3, max = 255, message = "Location must be between 3 and 255 characters")
     private String location;
 
-    public Employer(String org, String location) {
+    public Employer(String name, String location) {
         this(); // must be added for no-arg constructor to work, see below
-        this.org = org;
+        this.name = name;
         this.location = location;
     }
 
@@ -25,12 +25,12 @@ public class Employer extends AbstractEntity {
         // @Entity requires a no-arg constructor for hibernate to create an object
     }
 
-    public String getOrg() {
-        return org;
+    public String getName() {
+        return name;
     }
 
-    public void setOrg(String org) {
-        this.org = org;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLocation() {
@@ -43,7 +43,7 @@ public class Employer extends AbstractEntity {
 
     @Override
     public String toString() {
-        return org;
+        return name;
     }
 
 }
