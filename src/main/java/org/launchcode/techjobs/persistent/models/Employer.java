@@ -15,13 +15,11 @@ public class Employer extends AbstractEntity {
     private String location;
 
     @OneToMany(mappedBy = "employer")
-    @JoinColumn(name = "id")
-    private List<Job> jobs;
+    private final List<Job> jobs = new ArrayList<>();
 
-    public Employer(String location) {
+    public Employer(String location, List<Job> jobs) {
         this(); // must be added for no-arg constructor to work, see below
         this.location = location;
-        this.jobs = new ArrayList<>();
     }
 
     public Employer() {
