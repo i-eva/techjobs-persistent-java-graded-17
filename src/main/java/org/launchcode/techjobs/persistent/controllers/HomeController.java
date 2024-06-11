@@ -35,7 +35,7 @@ public class HomeController {
     @RequestMapping("/")
     public String index(Model model) {
 
-        model.addAttribute("title", "MyJobs");
+        model.addAttribute("title", jobRepository.findAll());
 
         return "index";
     }
@@ -49,29 +49,29 @@ public class HomeController {
     }
 
     @PostMapping("add")
-    public String processAddJobForm(@ModelAttribute @Valid Job newJob, Errors errors, Model model, @RequestParam (required = false) Integer employerId) {
+    public String processAddJobForm(@ModelAttribute @Valid Job newJob, Errors errors, Model model, @RequestParam Integer employerId) {
         if (errors.hasErrors()) {
 	        model.addAttribute("title", "Add Job");
             return "add";
         } else {
             if (employerId == null) {
-                model.addAttribute("title", "All Jobs");
-                model.addAttribute("jobs", jobRepository.findAll());
+                model.addAttribute("title", "Invalid Employer ID: " + employerId);
+                model.addAttribute("employers", employerRepository.findAll());
                 return "add";
             } else {
                 Optional<Employer> optionalEmployer = employerRepository.findById(employerId);
                 if (optionalEmployer.isEmpty()) {
                     model.addAttribute("title", "Invalid Employer ID: " + employerId);
+                    model.addAttribute("employers", employerRepository.findAll());
                     return "add";
                 } else {
                     Employer employer = optionalEmployer.get();
-                    model.addAttribute("title", "Jobs at employer: " +employer.getName());
-                    model.addAttribute("title", employer.getJobs());
                     newJob.setEmployer(employer);
                     jobRepository.save(newJob);
+                    return "redirect:";
                 }
             }
-            return "redirect:";
+
         }
 
     }
