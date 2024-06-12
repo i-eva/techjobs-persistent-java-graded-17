@@ -44,6 +44,7 @@ public class HomeController {
     public String displayAddJobForm(Model model) {
 	    model.addAttribute("title", "Add Job");
         model.addAttribute("employers", employerRepository.findAll());
+        model.addAttribute("skills", skillRepository.findAll());
         model.addAttribute(new Job());
         return "add";
     }
@@ -55,12 +56,14 @@ public class HomeController {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
             model.addAttribute("employers", employerRepository.findAll());
+            model.addAttribute("skills", skillRepository.findAll());
 
             // Print validation errors to the console
             errors.getAllErrors().forEach(error -> System.out.println(error.toString()));
 
             return "add";
         }
+// code below this line is never run and is untested:
 
         Optional<Employer> optEmployer = employerRepository.findById(employerId);
         if (optEmployer.isPresent()) {
@@ -69,6 +72,7 @@ public class HomeController {
         } else {
             model.addAttribute("title", "Add Job");
             model.addAttribute("employers", employerRepository.findAll());
+            model.addAttribute("skills", skillRepository.findAll());
             return "add";
         }
 
