@@ -56,20 +56,14 @@ public class HomeController {
 
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob, Errors errors, Model model,
-                                    @RequestParam Integer employerId, @RequestParam List<Integer> skills) {
+                                    @RequestParam int employerId, @RequestParam List<Integer> skills) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
             model.addAttribute("employers", employerRepository.findAll());
             model.addAttribute("skills", skillRepository.findAll());
-            model.addAttribute(new Job());
-
-            // Print validation errors to the browser console
-            // errors.getAllErrors().forEach(error -> System.out.println(error.toString()));
-
             return "add";
         }
-// code below this line is never run and is untested:
 
         Optional<Employer> optEmployer = employerRepository.findById(employerId);
         if (optEmployer.isPresent()) {
@@ -83,9 +77,8 @@ public class HomeController {
         }
 
         List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-        // had an if/else statement here, but removed it per student discussion in Discord.
         newJob.setSkills(skillObjs);
-
+        jobRepository.save(newJob);
         return "redirect:";
 
     }

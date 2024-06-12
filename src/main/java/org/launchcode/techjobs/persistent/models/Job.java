@@ -2,6 +2,7 @@ package org.launchcode.techjobs.persistent.models;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
@@ -13,11 +14,10 @@ import java.util.List;
 public class Job extends AbstractEntity {
 
     @ManyToOne
-    @NotNull(message = "Please add an employer")
     private Employer employer;
 
     // Refactored Skill from String to ArrayList.
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     // private List<Skill> skills = new ArrayList<>();
     private List<Skill> skills;
 
