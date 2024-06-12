@@ -124,9 +124,9 @@ public class TestTaskFour extends AbstractTest {
         assertNotNull(skillRepositoryField.getAnnotation(Autowired.class), "skillRepository must be @Autowired");
     }
 
-//    /*
-//    * Verifies that HomeController.processAddJobForm queries skillRepository and sets skills properly
-//    * */
+    /*
+    * Verifies that HomeController.processAddJobForm queries skillRepository and sets skills properly
+    * */
     @Test
     public void testProcessAddJobFormHandlesSkillsProperly (
             @Mocked SkillRepository skillRepository,

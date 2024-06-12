@@ -18,7 +18,7 @@ public class Employer extends AbstractEntity {
     @JoinColumn(name = "employer_id")
     private final List<Job> jobs = new ArrayList<>();
 
-    public Employer(String location, List<Job> jobs) {
+    public Employer(String location) {
         this(); // must be added for no-arg constructor to work, see below
         this.location = location;
     }
