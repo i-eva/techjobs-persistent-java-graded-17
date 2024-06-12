@@ -3,6 +3,7 @@ package org.launchcode.techjobs.persistent.controllers;
 import jakarta.validation.Valid;
 import org.launchcode.techjobs.persistent.models.Employer;
 import org.launchcode.techjobs.persistent.models.Job;
+import org.launchcode.techjobs.persistent.models.Skill;
 import org.launchcode.techjobs.persistent.models.data.SkillRepository;
 import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
 import org.launchcode.techjobs.persistent.models.data.JobRepository;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by LaunchCode
@@ -51,14 +54,14 @@ public class HomeController {
 
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob, Errors errors, Model model,
-                                    @RequestParam Integer employerId) {
+                                    @RequestParam Integer employerId, @RequestParam List<Integer> skills) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
             model.addAttribute("employers", employerRepository.findAll());
             model.addAttribute("skills", skillRepository.findAll());
 
-            // Print validation errors to the console
+            // Print validation errors to the browser console
             errors.getAllErrors().forEach(error -> System.out.println(error.toString()));
 
             return "add";
@@ -76,8 +79,16 @@ public class HomeController {
             return "add";
         }
 
-        jobRepository.save(newJob);
-        return "redirect:";
+        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+        if (skillObjs.isEmpty()) {
+            model.addAttribute("title", "Add Job");
+            model.addAttribute("employers", employerRepository.findAll());
+            model.addAttribute("skills", skillRepository.findAll());
+            return "add";
+        } else {
+            newJob.setSkills(skillObjs);
+            return "redirect:";
+        }
 
     }
 

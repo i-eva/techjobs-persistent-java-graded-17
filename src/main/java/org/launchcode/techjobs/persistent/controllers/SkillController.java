@@ -10,6 +10,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("skills")
