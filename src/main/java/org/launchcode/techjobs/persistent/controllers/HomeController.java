@@ -7,6 +7,8 @@ import org.launchcode.techjobs.persistent.models.Skill;
 import org.launchcode.techjobs.persistent.models.data.SkillRepository;
 import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
 import org.launchcode.techjobs.persistent.models.data.JobRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,9 +62,10 @@ public class HomeController {
             model.addAttribute("title", "Add Job");
             model.addAttribute("employers", employerRepository.findAll());
             model.addAttribute("skills", skillRepository.findAll());
+            model.addAttribute(new Job());
 
             // Print validation errors to the browser console
-            errors.getAllErrors().forEach(error -> System.out.println(error.toString()));
+            // errors.getAllErrors().forEach(error -> System.out.println(error.toString()));
 
             return "add";
         }
@@ -80,15 +83,10 @@ public class HomeController {
         }
 
         List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-        if (skillObjs.isEmpty()) {
-            model.addAttribute("title", "Add Job");
-            model.addAttribute("employers", employerRepository.findAll());
-            model.addAttribute("skills", skillRepository.findAll());
-            return "add";
-        } else {
-            newJob.setSkills(skillObjs);
-            return "redirect:";
-        }
+        // had an if/else statement here, but removed it per student discussion in Discord.
+        newJob.setSkills(skillObjs);
+
+        return "redirect:";
 
     }
 

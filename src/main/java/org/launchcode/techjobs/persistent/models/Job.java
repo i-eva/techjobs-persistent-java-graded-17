@@ -18,7 +18,8 @@ public class Job extends AbstractEntity {
 
     // Refactored Skill from String to ArrayList.
     @ManyToMany
-    private List<Skill> skills = new ArrayList<>();
+    // private List<Skill> skills = new ArrayList<>();
+    private List<Skill> skills;
 
 
     public Job() {
@@ -26,15 +27,16 @@ public class Job extends AbstractEntity {
 
     // Initialize the id and value fields (anEmployer and someSkills).
     // Removed someSkills parameter to update after refactoring.
-    public Job(Employer anEmployer) {
+    public Job(Employer anEmployer, List<Skill> someSkills) {
         super();
         this.employer = anEmployer;
+        this.skills = someSkills;
     }
 
     // Getters and setters. Note: Task instructions want a setter for skills.
     // Chris Bay video demonstrates that we want to set lists to final, and final eliminates need for setter.
     // However, all setSkills methods in rest of code are red and halt the compiler.
-    // After removing final, generated setter.
+    // After removing final, generated setter. setSkills methods now work.
 
     public Employer getEmployer() {
         return employer;
