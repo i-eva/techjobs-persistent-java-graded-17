@@ -7,7 +7,6 @@ import org.launchcode.techjobs.persistent.models.data.SkillRepository;
 import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
 import org.launchcode.techjobs.persistent.models.data.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -35,7 +34,8 @@ public class HomeController {
     @RequestMapping("/")
     public String index(Model model) {
 
-        model.addAttribute("title", jobRepository.findAll());
+        model.addAttribute("title", "MyJobs");
+        model.addAttribute( "jobs", jobRepository.findAll());
 
         return "index";
     }
@@ -49,37 +49,44 @@ public class HomeController {
     }
 
     @PostMapping("add")
-    public String processAddJobForm(@ModelAttribute @Valid Job newJob, Errors errors, Model model, @RequestParam Integer employerId) {
-        if (errors.hasErrors()) {
-	        model.addAttribute("title", "Add Job");
-            return "add";
-        } else {
-            if (employerId == null) {
-                model.addAttribute("title", "Invalid Employer ID: " + employerId);
-                model.addAttribute("employers", employerRepository.findAll());
-                return "add";
-            } else {
-                Optional<Employer> optionalEmployer = employerRepository.findById(employerId);
-                if (optionalEmployer.isEmpty()) {
-                    model.addAttribute("title", "Invalid Employer ID: " + employerId);
-                    model.addAttribute("employers", employerRepository.findAll());
-                    return "add";
-                } else {
-                    Employer employer = optionalEmployer.get();
-                    newJob.setEmployer(employer);
-                    jobRepository.save(newJob);
-                    return "redirect:";
-                }
-            }
+    public String processAddJobForm(@ModelAttribute @Valid Job newJob, Errors errors, Model model,
+                                    @RequestParam Integer employerId) {
 
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Add Job");
+            model.addAttribute("employers", employerRepository.findAll());
+
+            // Print validation errors to the console
+            errors.getAllErrors().forEach(error -> System.out.println(error.toString()));
+
+            return "add";
         }
+
+        Optional<Employer> optEmployer = employerRepository.findById(employerId);
+        if (optEmployer.isPresent()) {
+            Employer employer = optEmployer.get();
+            newJob.setEmployer(employer);
+        } else {
+            model.addAttribute("title", "Add Job");
+            model.addAttribute("employers", employerRepository.findAll());
+            return "add";
+        }
+
+        jobRepository.save(newJob);
+        return "redirect:";
 
     }
 
     @GetMapping("view/{jobId}")
-    public String displayViewJob(Model model, @PathVariable int jobId) {
-
+    public String displayViewJob(Model model, @PathVariable Integer jobId) {
+        Optional<Job> optJob = jobRepository.findById(jobId);
+        if (optJob.isPresent()) {
+            Job job = optJob.get();
+            model.addAttribute("job", job);
             return "view";
+        } else {
+            return "redirect:";
+        }
     }
 
 }
