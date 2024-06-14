@@ -36,9 +36,4 @@ public class Skill extends AbstractEntity {
         return jobs;
     }
 
-    @Override
-    public String toString() {
-        return description;
-    }
-
 }
